@@ -21,6 +21,15 @@ const Page = db.define('page', {
   },
 });
 
+var mySlug = async function(page) {
+  // console.log('title is', title);
+  page.slug = await page.dataValues.title.replace(/\W/g, '').replace(/\s+/g, '_');
+
+};
+
+Page.hook('beforeValidate', mySlug);
+// Page.hook('afterCreate', console.log(Page));
+
 const User = db.define('user', {
   name: {
     type: Sequelize.STRING,
@@ -40,3 +49,4 @@ module.exports = { db, Page, User };
 // module.exports = {
 //   db
 // }
+
