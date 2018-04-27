@@ -17,7 +17,7 @@ app.use(express.static(__dirname + '/public'));
 app.use('/wiki', wikiRouter)
 
 app.get('/', (req, res) => {
-  res.send(layout(''));
+  res.redirect('/wiki');
 });
 
 const init = async () => {
