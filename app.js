@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const layout = require('./views/layout.js');
-const { db } = require('./models');
+const models = require('./models');
 
-db.authenticate().
+models.db.authenticate().
 then(() => {
   console.log('connected to the database');
 })
@@ -20,8 +20,14 @@ app.get('/', (req, res) => {
 })
 
 
-const PORT = 3000;
+const init = async () => {
+ await models.db.sync({force: true});
 
-app.listen(PORT, () => {
-  console.log(`App listening in port ${PORT}`);
-});
+  const PORT = 3000;
+  app.listen(PORT, () => {
+    console.log(`App listening in port ${PORT}`);
+  });
+}
+
+init();
+
